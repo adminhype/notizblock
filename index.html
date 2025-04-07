@@ -18,13 +18,13 @@
         <section id="noteHeroArea">
             <h1>Notizblock</h1>
 
-            <label for="note_input_title">Titel</label>
-            <input id="note_input_titlle" type="text" />
-
-            <label for="note_input_content">Content</label>
-            <input id="note_input_content" type="text" />
-
-            <button onclick="addNote()">Notiz speichern</button>
+            <div class="inputBox">
+                <p>title</p>
+                <input id="note_input_title" type="text" />
+                <p>content</p>
+                <input id="note_input" type="text" />
+                <button onclick="addNote()">Notiz speichern</button>
+            </div>
             <section>
                 <!-- notes anzeigen -->
                 <h2>Notes</h2>

@@ -39,36 +39,22 @@ function renderArchivNotes() {
 
 function addNote() {
     // eingabe anzeigen lassen
-    let NoteInputRef = document.getElementById('note_input_title')
+    let noteInputRef = document.getElementById('note_input');
+    let notetitleInputRef = document.getElementById('note_input_title')
     // eingabe auslesen
-    let noteInput = NoteInputRef.value;
+    let noteInput = noteInputRef.value;
+    let noteTitle = notetitleInputRef.value;
     // eingabe den notzien hinzufügen  
-    notes.push(noteInput)
-
-
+    notes.push(noteInput);
+    notesTitles.push(noteTitle);
     // function anzeigen lassen
     renderNotes();
 
     //werte zurück auf leeren string setzen
-    NoteInputRef.value = "";
+    noteInputRef.value = "";
+    notetitleInputRef.value = "";
+
 }
-function addNote() {
-    // eingabe anzeigen lassen
-    let NoteInputRef = document.getElementById('note_input_content')
-    // eingabe auslesen
-    let noteInput = NoteInputRef.value;
-    // eingabe den notzien hinzufügen  
-    notes.push(noteInput)
-
-
-    // function anzeigen lassen
-    renderNotes();
-
-    //werte zurück auf leeren string setzen
-    NoteInputRef.value = "";
-}
-// welche notiz muss gelöscht werden (indexNote)
-
 //notizen löschen
 function noteToTrash(indexNote) {
     let trashNote = notes.splice(indexNote, 1);
