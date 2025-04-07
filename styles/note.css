@@ -1,0 +1,24 @@
+/* note background hinzufügen */
+.note {
+    height: 150px;
+    width: 150px;
+    background-color: antiquewhite;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-radius: 8px;
+}
+.note > h3,
+.note > p {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.note > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

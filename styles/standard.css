@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    text-decoration: none;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+}
+h2 {
+    color: white;
+}

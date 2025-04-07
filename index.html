@@ -6,6 +6,7 @@
         <title>Notizblock</title>
         <script src="scripts/templates.js"></script>
         <script src="./script.js"></script>
+
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="./styles/standard.css" />
         <link rel="stylesheet" href="./scripts/templates.js" />
@@ -16,17 +17,25 @@
     <body onload="renderNotes()">
         <section id="noteHeroArea">
             <h1>Notizblock</h1>
-            <input id="note_input" type="text" />
+
+            <label for="note_input_title">Titel</label>
+            <input id="note_input_titlle" type="text" />
+
+            <label for="note_input_content">Content</label>
+            <input id="note_input_content" type="text" />
 
             <button onclick="addNote()">Notiz speichern</button>
-
-            <!-- notes anzeigen -->
-            <h2>Notes</h2>
-            <section id="content"></section>
-
-            <!-- trashnotes anzeigen -->
-            <h2>Trash*</h2>
-            <section id="trash_content"></section>
+            <section>
+                <!-- notes anzeigen -->
+                <h2>Notes</h2>
+                <section id="content"></section>
+                <!-- notes archivieren -->
+                <h2>Archiv</h2>
+                <section id="archiv_content"></section>
+                <!-- trashnotes anzeigen -->
+                <h2>Trash*</h2>
+                <section id="trash_content"></section>
+            </section>
         </section>
     </body>
 </html>
