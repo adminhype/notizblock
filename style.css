@@ -25,3 +25,9 @@ body {
 p {
     border-radius: solid 1px blue;
 }
+.redBoxs {
+    height: 50px;
+    width: 50px;
+    background: red;
+    margin: 10px;
+}
