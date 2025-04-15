@@ -1,8 +1,8 @@
 
 //#regionarrays
 
-let notesTitles = ["ewrwer"];
-let notes = ["32424"];
+let notesTitles = [];
+let notes = [];
 
 let trashNoteTitles = [];
 let trashNotes = [];
@@ -41,8 +41,6 @@ let archivNotes = [];
 //     renderArchivNotes();
 // }
 
-
-
 //#region renderfunctions 
 function renderNotes() {
     let contentRef = document.getElementById('content')
@@ -52,6 +50,11 @@ function renderNotes() {
         contentRef.innerHTML += getNoteTemplate(indexNote);
     }
 }
+getFromLocalStorage();
+
+renderNotes();
+renderTrashNotes();
+renderArchivNotes();
 function renderTrashNotes() {
     let TrashContentRef = document.getElementById('trash_content')
     TrashContentRef.innerHTML = "";
@@ -67,7 +70,6 @@ function renderArchivNotes() {
     }
 }
 //#endregion renderfunctions
-
 
 //ausgabe aus dem input feld onclick speichern > beide inputfelder müssen ausgefüllt sein
 function addNote() {
@@ -99,29 +101,19 @@ function saveToLocalStorage() {
     localStorage.setItem("notes", JSON.stringify(notes));
     localStorage.setItem("notesTitles", JSON.stringify(notesTitles));
 
-    // localStorage.setItem("archivNoteTitles", JSON.stringify(archivNoteTitles));
-    // localStorage.setItem("archivNotes", JSON.stringify(archivNotes));
+    localStorage.setItem("archivNoteTitles", JSON.stringify(archivNoteTitles));
+    localStorage.setItem("archivNotes", JSON.stringify(archivNotes));
 
-    // localStorage.setItem("trashNoteTitles", JSON.stringify(trashNoteTitles));
-    // localStorage.setItem("trashNotes", JSON.stringify(trashNotes));
+    localStorage.setItem("trashNoteTitles", JSON.stringify(trashNoteTitles));
+    localStorage.setItem("trashNotes", JSON.stringify(trashNotes));
 
 }
 
 function getFromLocalStorage() {
     let notesTitlesData = JSON.parse(localStorage.getItem("notesTitles"));
     let notesData = JSON.parse(localStorage.getItem("notes"));
-    console.log(notesTitlesData);
-    console.log(notesData);
 
-
-
-    // let archivNoteTitlesData = JSON.parse(localStorage.getItem('archivNoteTitles'));
-    // let archivNotesData = JSON.parse(localStorage.getItem('archivNotes'));
-
-    // let trashNoteTitlesData = JSON.parse(localStorage.getItem('trashNoteTitles'));
-    // let trashNotesData = JSON.parse(localStorage.getItem('trashNotes'));
-
-    if (notesTitlesData && notesData && notesTitlesData.length === notesData.length && notesData.length > 0) {
+    if (notesTitlesData && notesData && notesTitlesData.length === notesData.length && notesData.length) {
         notesTitles = notesTitlesData;
         notes = notesData;
     } else {
@@ -129,6 +121,27 @@ function getFromLocalStorage() {
         notes = [];
     }
 
+    let archivNoteTitlesData = JSON.parse(localStorage.getItem('archivNoteTitles'));
+    let archivNotesData = JSON.parse(localStorage.getItem('archivNotes'));
+
+    if (archivNoteTitlesData && archivNotesData && archivNoteTitlesData.length === archivNotesData.length && archivNotesData.length) {
+        archivNoteTitles = archivNoteTitlesData;
+        archivNotes = archivNotesData;
+    } else {
+        archivNoteTitles = [];
+        archivNotes = [];
+    }
+
+    let trashNoteTitlesData = JSON.parse(localStorage.getItem('trashNoteTitles'));
+    let trashNotesData = JSON.parse(localStorage.getItem('trashNotes'));
+
+    if (trashNoteTitlesData && trashNotesData && trashNoteTitlesData.length === trashNotesData.length && trashNotesData.length) {
+        trashNoteTitles = trashNoteTitlesData;
+        trashNotes = trashNotesData;
+    } else {
+        trashNoteTitles = [];
+        trashNotes = [];
+    }
 
     // if (archivNoteTitlesData && archivNoteTitlesData.length > 0) {
     //     archivNoteTitles = archivNoteTitlesData;
@@ -147,9 +160,6 @@ function getFromLocalStorage() {
     // }
 }
 
-
-
-
 // function getNoteTemplate(indexNote) {
 //     return /*html*/  `
 //     <div>
@@ -163,11 +173,11 @@ function getFromLocalStorage() {
 function getNoteTemplate(indexNote) {
     // allNotes. hinzufügen (änderung auf ein anderes array)
     return /*html*/  `
-    <div>
+    <div class="noteStyle">
         <p><strong>Titel </strong>${notesTitles[indexNote]}</p>
         <p>${notes[indexNote]}</p>
-        <button onclick="AddNoteToTrash(${indexNote})">x</button>
-        <button onclick="AddNoteToArchiv(${indexNote})">a</button>
+        <button onclick="AddNoteToTrash(${indexNote})">X</button>
+        <button onclick="AddNoteToArchiv(${indexNote})">A</button>
     </div >
     `;
 
@@ -175,10 +185,10 @@ function getNoteTemplate(indexNote) {
 
 function getArchivNoteTemplate(indexArchivNote) {
     return /*html*/  `
-    <div>
+    <div class="noteStyle">
         <p><strong>Titel </strong>${archivNoteTitles[indexArchivNote]}</p>
         <p>${archivNotes[indexArchivNote]}</p>
-        <button onclick="AddNoteToTrash(${indexArchivNote})">x</button>
+        <button onclick="AddNoteToTrash(${indexArchivNote})">X</button>
         <button onclick="AddNoteFromArchivToNote(${indexArchivNote})">N</button>
     </div >
     `;
@@ -186,11 +196,11 @@ function getArchivNoteTemplate(indexArchivNote) {
 }
 function getTrashNoteTemplate(indexTrashNote) {
     return /*html*/  `
-    <div>
+    <div class="noteStyle">
         <p><strong>Titel </strong>${trashNoteTitles[indexTrashNote]}</p>
         <p>${trashNotes[indexTrashNote]}</p>
         <button onclick="AddNoteFromTrashToNotes(${indexTrashNote})">N</button>
-        <button onclick="deleteNote(${indexTrashNote})">x</button>
+        <button onclick="deleteNote(${indexTrashNote})">Delete</button>
     </div >
     `;
 
@@ -207,6 +217,7 @@ function AddNoteToTrash(indexNote) {
     renderNotes();
     renderTrashNotes();
     renderArchivNotes();
+    saveToLocalStorage();
 }
 function AddNoteToArchiv(indexArchivNote) {
     let archivNote = notes.splice(indexArchivNote, 1);
@@ -217,6 +228,8 @@ function AddNoteToArchiv(indexArchivNote) {
     renderNotes();
     renderArchivNotes();
     renderTrashNotes();
+    saveToLocalStorage();
+
 }
 
 function AddNoteFromArchivToNote(indexArchivNote) {
@@ -228,6 +241,8 @@ function AddNoteFromArchivToNote(indexArchivNote) {
     renderNotes();
     renderArchivNotes();
     renderTrashNotes();
+    saveToLocalStorage();
+
 }
 
 function AddNoteFromTrashToNotes(indexTrashNote) {
@@ -239,6 +254,8 @@ function AddNoteFromTrashToNotes(indexTrashNote) {
     renderNotes();
     renderArchivNotes();
     renderTrashNotes();
+    saveToLocalStorage();
+
 }
 
 function AddNoteFromNotesToTrash(indexNote) {
@@ -250,6 +267,8 @@ function AddNoteFromNotesToTrash(indexNote) {
     renderNotes();
     renderArchivNotes();
     renderTrashNotes();
+    saveToLocalStorage();
+
 }
 
 function deleteNote(indexTrashNote) {
@@ -258,6 +277,7 @@ function deleteNote(indexTrashNote) {
     renderNotes();
     renderTrashNotes();
     renderArchivNotes();
+
 }
 
 

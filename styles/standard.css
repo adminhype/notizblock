@@ -12,5 +12,6 @@ h1 {
     color: white;
 }
 h2 {
-    color: rgb(82, 32, 88);
+    color: rgba(31, 131, 61, 0.904);
+    display: flex;
 }
