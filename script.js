@@ -1,24 +1,53 @@
-// }
-//#region arrays
-let notesTitles = ["ewrwer", "23232"];
-let notes = ["32424", " 224222"];
+
+//#regionarrays
+
+let notesTitles = ["ewrwer"];
+let notes = ["32424"];
 
 let trashNoteTitles = [];
 let trashNotes = [];
 
 let archivNoteTitles = [];
 let archivNotes = [];
+
+// array zusammenfassen in einem object > arraynamen sind keys + arrays
+// let allNotes = {
+//     'notesTitles': ['xa', 'buuh'],
+//     'notes': ['ax', 'yeeey'],
+//     'trashNotesTitles': [],
+//     'trashNotes': [],
+//     'archivNotesTitles': [],
+//     'archivNotes': []
+// }
 //#endregion arrays
 
-function init() {
-    getFromLocalStorage();
-    renderNotes();
-}
+
+// z.b funktions aufruf
+// MoveNote(1, 'notes', 'trashNotes')
+
+// eine function für mehrere functions
+// no 1: was brauchen wir indexNote start array rausnehmen > in eine andere stelle einfügen
+// function MoveNote(indexNote, startKey, destinationKey) {
+//     //beliebiges array hinzufügen 
+//     let note = allNotes[startKey].splice(indexNote, 1);
+//     notes.push(note[0]);
+//     let noteTitles = trashNoteTitles.splice(indexNote, 1);
+//     notesTitles.push(noteTitles[0]);
+
+
+
+//     renderNotes();
+//     renderTrashNotes();
+//     renderArchivNotes();
+// }
+
+
 
 //#region renderfunctions 
 function renderNotes() {
     let contentRef = document.getElementById('content')
     contentRef.innerHTML = "";
+    //array ändern notes > allNotes + getnotetemplate ändern
     for (let indexNote = 0; indexNote < notes.length; indexNote++) {
         contentRef.innerHTML += getNoteTemplate(indexNote);
     }
@@ -130,7 +159,9 @@ function getFromLocalStorage() {
 //     `;
 
 // }
+//#region template
 function getNoteTemplate(indexNote) {
+    // allNotes. hinzufügen (änderung auf ein anderes array)
     return /*html*/  `
     <div>
         <p><strong>Titel </strong>${notesTitles[indexNote]}</p>
@@ -148,7 +179,7 @@ function getArchivNoteTemplate(indexArchivNote) {
         <p><strong>Titel </strong>${archivNoteTitles[indexArchivNote]}</p>
         <p>${archivNotes[indexArchivNote]}</p>
         <button onclick="AddNoteToTrash(${indexArchivNote})">x</button>
-        <button onclick="AddNoteToArchiv(${indexArchivNote})">a</button>
+        <button onclick="AddNoteFromArchivToNote(${indexArchivNote})">N</button>
     </div >
     `;
 
@@ -158,12 +189,13 @@ function getTrashNoteTemplate(indexTrashNote) {
     <div>
         <p><strong>Titel </strong>${trashNoteTitles[indexTrashNote]}</p>
         <p>${trashNotes[indexTrashNote]}</p>
-        <button onclick="AddNoteToTrash(${indexTrashNote})">x</button>
-        <button onclick="deleteNote(${indexTrashNote})">a</button>
+        <button onclick="AddNoteFromTrashToNotes(${indexTrashNote})">N</button>
+        <button onclick="deleteNote(${indexTrashNote})">x</button>
     </div >
     `;
 
 }
+//#endregion template
 
 
 function AddNoteToTrash(indexNote) {
@@ -174,6 +206,7 @@ function AddNoteToTrash(indexNote) {
 
     renderNotes();
     renderTrashNotes();
+    renderArchivNotes();
 }
 function AddNoteToArchiv(indexArchivNote) {
     let archivNote = notes.splice(indexArchivNote, 1);
@@ -183,12 +216,48 @@ function AddNoteToArchiv(indexArchivNote) {
 
     renderNotes();
     renderArchivNotes();
+    renderTrashNotes();
 }
+
+function AddNoteFromArchivToNote(indexArchivNote) {
+    let note = archivNotes.splice(indexArchivNote, 1);
+    notes.push(note[0]);
+    let noteTitle = archivNoteTitles.splice(indexArchivNote, 1);
+    notesTitles.push(noteTitle[0]);
+
+    renderNotes();
+    renderArchivNotes();
+    renderTrashNotes();
+}
+
+function AddNoteFromTrashToNotes(indexTrashNote) {
+    let note = trashNotes.splice(indexTrashNote, 1);
+    notes.push(note[0]);
+    let noteTitle = trashNoteTitles.splice(indexTrashNote, 1);
+    notesTitles.push(noteTitle[0]);
+
+    renderNotes();
+    renderArchivNotes();
+    renderTrashNotes();
+}
+
+function AddNoteFromNotesToTrash(indexNote) {
+    let trashNote = archivNotes.splice(indexNote, 1);
+    notes.push(trashNote[0]);
+    let trashNoteTitle = archivNoteTitles.splice(indexNote, 1);
+    notesTitles.push(trashNoteTitle[0]);
+
+    renderNotes();
+    renderArchivNotes();
+    renderTrashNotes();
+}
+
 function deleteNote(indexTrashNote) {
     trashNotes.splice(indexTrashNote, 1);
     trashNoteTitles.splice(indexTrashNote, 1);
     renderNotes();
     renderTrashNotes();
+    renderArchivNotes();
 }
 
 
